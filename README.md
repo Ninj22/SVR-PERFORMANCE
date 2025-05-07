@@ -1,8 +1,8 @@
-# 4x4Builder.com 🚙
+# SVR PERFORMANCE GARAGE
 
 ![4x4 Builder Screenshot](assets/images/screenshot.png)
 
-4x4Builder.com is an online 3D application that allows users to construct their ideal 4x4 vehicle in the browser. Whether you're a car enthusiast or just someone who enjoys exploring the world of 3D, 4x4 Builder provides an interactive and immersive experience for building your dream off-road vehicle.
+SVR PERFORMANCE GARAGE is an online 3D application that allows users to construct their ideal 4x4 vehicle in the browser. Whether you're a car enthusiast or just someone who enjoys exploring the world of 3D, 4x4 Builder provides an interactive and immersive experience for building your dream off-road vehicle.
 
 ## Tech Stack 🛠️
 
@@ -24,7 +24,7 @@ To get started with 4x4 Builder, follow these steps:
 
 1. Clone the repository:
 
-`git clone https://github.com/theshanergy/4x4builder.git`
+`git clone https://github.com/Ninj22/SVR-PERFORMANCE`
 
 2. Change directory to the project folder:
 
