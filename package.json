@@ -1,23 +1,27 @@
 {
-    "name": "4x4builder",
+    "name": "svr-performance-garage",
     "version": "2.0.0",
     "private": true,
-    "description": "4x4builder.com",
+    "description": "SVR Performance Garage — 3D 4x4 builder",
     "author": "Shane Vincent",
     "type": "module",
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "start": "node server/index.js",
+        "dev:server": "nodemon --watch server server/index.js",
+        "db:migrate": "node server/migrate.js"
     },
     "dependencies": {
         "@react-three/drei": "^10.0.4",
         "@react-three/fiber": "^9.1.0",
         "@react-three/rapier": "^2.0.0",
         "@tailwindcss/vite": "^4.0.14",
-        "bcrypt": "^5.1.1",
-        "body-parser": "^2.2.0",
+        "bcryptjs": "^3.0.3",
         "classnames": "^2.5.1",
+        "cookie-parser": "^1.4.7",
+        "dotenv": "^18.0.10",
         "express": "^4.21.2",
         "immer": "^10.1.1",
         "jsonwebtoken": "^9.0.2",
@@ -34,6 +38,7 @@
         "@types/react": "^19.0.10",
         "@types/react-dom": "^19.0.4",
         "@vitejs/plugin-react": "^4.3.4",
+        "nodemon": "^3.1.14",
         "vite": "^6.2.1"
     }
 }
