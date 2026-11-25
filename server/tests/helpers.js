@@ -20,21 +20,25 @@ export const startServer = async () => {
 
 export const client = (base) => {
     let cookie = ''
-    const request = async (method, path, body) => {
+    // Objects are sent as JSON; a Buffer is sent as-is with the given content type (for images).
+    const request = async (method, path, body, type = 'application/json') => {
+        const raw = Buffer.isBuffer(body)
         const res = await fetch(base + path, {
             method,
-            headers: { 'Content-Type': 'application/json', ...(cookie && { Cookie: cookie }) },
-            body: body === undefined ? undefined : JSON.stringify(body),
+            headers: { 'Content-Type': raw ? type : 'application/json', ...(cookie && { Cookie: cookie }) },
+            body: body === undefined ? undefined : raw ? body : JSON.stringify(body),
         })
         const setCookie = res.headers.get('set-cookie')
         if (setCookie) cookie = setCookie.split(';')[0]
-        const text = await res.text()
-        return { status: res.status, body: text ? JSON.parse(text) : null, setCookie }
+        const isJson = res.headers.get('content-type')?.includes('application/json')
+        const data = isJson ? await res.json() : Buffer.from(await res.arrayBuffer())
+        return { status: res.status, body: data, setCookie, type: res.headers.get('content-type') }
     }
     return {
         get: (p) => request('GET', p),
         post: (p, b) => request('POST', p, b ?? {}),
         patch: (p, b) => request('PATCH', p, b ?? {}),
+        put: (p, b, type) => request('PUT', p, b, type),
         delete: (p) => request('DELETE', p),
     }
 }

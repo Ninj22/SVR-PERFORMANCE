@@ -5,6 +5,7 @@ import { query } from './db.js'
 import { readUser } from './middleware/auth.js'
 import { authRouter } from './routes/auth.js'
 import { buildsRouter } from './routes/builds.js'
+import { shareRouter } from './routes/share.js'
 
 export const app = express()
 
@@ -26,6 +27,7 @@ app.get('/api/health', async (req, res, next) => {
 
 app.use('/api/auth', authRouter)
 app.use('/api/builds', buildsRouter)
+app.use('/api', shareRouter)
 
 // Unknown /api routes get JSON, not the SPA.
 app.use('/api', (req, res) => res.status(404).json({ error: 'Not found' }))
