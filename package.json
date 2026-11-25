@@ -11,7 +11,8 @@
         "preview": "vite preview",
         "start": "node server/index.js",
         "dev:server": "nodemon --watch server server/index.js",
-        "db:migrate": "node server/migrate.js"
+        "db:migrate": "node server/migrate.js",
+        "test:server": "node --test --test-concurrency=1 server/tests/*.test.js"
     },
     "dependencies": {
         "@react-three/drei": "^10.0.4",

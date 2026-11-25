@@ -2,11 +2,17 @@ import express from 'express'
 import cookieParser from 'cookie-parser'
 import { fileURLToPath } from 'node:url'
 import { query } from './db.js'
+import { readUser } from './middleware/auth.js'
+import { authRouter } from './routes/auth.js'
 
 export const app = express()
 
+// Behind Render/Railway's proxy, req.ip should be the visitor's IP, not the proxy's.
+app.set('trust proxy', 1)
+
 app.use(express.json({ limit: '100kb' }))
 app.use(cookieParser())
+app.use(readUser)
 
 app.get('/api/health', async (req, res, next) => {
     try {
@@ -16,6 +22,8 @@ app.get('/api/health', async (req, res, next) => {
         next(err)
     }
 })
+
+app.use('/api/auth', authRouter)
 
 // Unknown /api routes get JSON, not the SPA.
 app.use('/api', (req, res) => res.status(404).json({ error: 'Not found' }))
@@ -29,6 +37,9 @@ if (process.env.NODE_ENV === 'production') {
 
 // Central error handler: log the real error, send a safe message.
 app.use((err, req, res, next) => {
+    // Malformed JSON body from express.json()
+    if (err.type === 'entity.parse.failed') return res.status(400).json({ error: 'Invalid JSON' })
+    if (err.type === 'entity.too.large') return res.status(413).json({ error: 'Request too large' })
     console.error(err)
     const status = err.status || 500
     res.status(status).json({ error: status === 500 ? 'Internal server error' : err.message })
