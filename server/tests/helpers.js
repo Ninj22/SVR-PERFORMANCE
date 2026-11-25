@@ -11,6 +11,8 @@ export const startServer = async () => {
     const base = `http://127.0.0.1:${server.address().port}`
     const stop = async () => {
         await new Promise((resolve) => server.close(resolve))
+        // Remove test accounts; their builds go too (ON DELETE CASCADE).
+        await pool.query("DELETE FROM users WHERE email LIKE 'test\\_%@example.com'")
         await pool.end()
     }
     return { base, stop }
@@ -38,3 +40,10 @@ export const client = (base) => {
 }
 
 export const uniqueEmail = () => `test_${Date.now()}_${Math.random().toString(36).slice(2, 8)}@example.com`
+
+// Registers a fresh user and returns a client that's signed in as them.
+export const signedInClient = async (base) => {
+    const c = client(base)
+    await c.post('/api/auth/register', { email: uniqueEmail(), password: 'longenough' })
+    return c
+}
