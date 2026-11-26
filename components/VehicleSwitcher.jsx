@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react'
 import classNames from 'classnames'
 
 import useGameStore from '../store/gameStore'
+import { deleteBuild } from '../store/buildActions'
 import ChevronIcon from '../assets/images/icons/Chevron.svg'
 import TrashIcon from '../assets/images/icons/Trash.svg'
 
@@ -23,7 +24,7 @@ const VehicleSwitcher = () => {
 
     const handleVehicleDelete = (event, vehicleId) => {
         event.stopPropagation()
-        deleteSavedVehicle(vehicleId)
+        deleteBuild(vehicleId)
         setShowDropdown(false)
     }
 

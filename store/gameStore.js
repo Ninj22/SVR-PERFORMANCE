@@ -21,6 +21,9 @@ const useGameStore = create((set, get) => {
         setPhysicsEnabled: (enabled) => set({ physicsEnabled: enabled }),
         setPerformanceDegraded: (degraded) => set({ performanceDegraded: degraded }),
 
+        // True while signed in: saved builds come from the API, not localStorage
+        remoteBuilds: false,
+
         // Notification state
         notification: null,
         showNotification: (notificationData) => set({ notification: { ...notificationData, id: Date.now() } }),
